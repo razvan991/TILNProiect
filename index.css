@@ -1,0 +1,57 @@
+body {
+    margin:0;
+    padding:0;
+}
+.container1 {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+}
+#myMap {
+    position: relative;
+    float: left;
+    width: 80%;
+    height: 100%;
+}
+.container2 {
+    position: relative;
+    float: right;
+    width: 20%;
+    height: 100%;
+}
+#searchBoxContainer {
+    position: relative;
+    width: 100%;
+    height: 10%;
+    border-bottom: solid #000 1px;
+}
+#searchBoxContainer p {
+    margin: 5px 0;
+    text-align: center;
+    font-weight: bold;
+}
+#searchBox {
+    position: relative;
+    margin-left: 10%;
+    width: 80%;
+    border-radius: 10px;
+
+    font-size: large;
+}
+#searchBox:focus {
+    outline: none;
+}
+.as_container_search {
+    /* div-ul cu sugestii pt. cautare */
+    right: 0;
+}
+#printoutPanel {
+    position: relative;
+    float: right;
+    width: 96%;
+    height: 90%;
+    overflow-y: scroll;
+}
+.container3 {
+    position: relative;
+}
