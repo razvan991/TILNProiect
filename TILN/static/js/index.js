@@ -1,3 +1,4 @@
+var adrese = "";
 window.addEventListener('load', function () {
     if (document.getElementById("show_route").checked == true) {
         bifat = true;
@@ -120,7 +121,8 @@ function loadMapScenario() {
                     route();
             });
 
-            document.getElementById('printoutPanel').innerHTML += "<p id='p" + letter + "'>" + letter.bold() + ": " + adresa + "</p>";
+            document.getElementById('printoutPanel').innerHTML += "<p name='aaa' id='p" + letter + "'>" + letter.bold() + ": " + adresa + "</p>";
+            adrese += adresa;
             document.getElementById('printoutPanel').scrollTop = document.getElementById('printoutPanel').scrollHeight; // scroll to the bottom of printoutPanel when a pin is added
 
             letters[0] = String.fromCharCode(letters[0].charCodeAt(0) + 1);
@@ -163,3 +165,19 @@ function loadMapScenario() {
         }
     });
 }
+// document.getElementById("submit_button").addEventListener('click', function () {
+//     console.log(adrese);
+//     $.ajax({
+//         type: "GET",
+//         url: "/1.py",
+//         async: false,
+//         datatype: "text",
+//         data: { param: adrese },
+//         success: callbackFunc
+//     });
+// });
+// function callbackFunc(response) {
+//     // do something with the response
+//     console.log("merge scriptul");
+//     console.log(response);
+// }

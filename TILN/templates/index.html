@@ -1,9 +1,11 @@
+<!--{% load static %}-->
 <!DOCTYPE html>
 <html>
     <head>
         <title>TILN</title>
         <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
-    	<link href="index.css" rel="stylesheet" type="text/css" />
+    	<link href="{%  static  'css/index.css'  %}" rel="stylesheet" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div class="container1">
@@ -23,12 +25,12 @@
             <label for="show_route">Afiseaza traseul.</label>
             
             <!-- buton "afiseaza poveste" -->
-            <button style="float: right;">Web scraping</button>
+            <button id="submit_button" style="float: right;">Web scraping</button>
         </div>
         <div class="container4" id="container4">
             <!--  -->
         </div>
-        <script module src="index.js"></script>
+        <script src="{%  static  'js/index.js'  %}"></script>
         <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=Auvyd6YmHw3Vjtjk8Qh_UPb_AzgFbBa2XMnWc5ra8C2b5xNwEgiyugdUY9zw46yb&callback=loadMapScenario' async defer></script>
     </body>
 </html>
