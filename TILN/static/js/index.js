@@ -41,6 +41,7 @@ function loadMapScenario() {
                 }
                 else {
                     document.getElementById('p' + drag).innerHTML = drag.bold() + ": " + adresa;
+                    document.getElementById('in'+ drag).value = adresa;
                 }
             }
         };
@@ -108,7 +109,8 @@ function loadMapScenario() {
             Microsoft.Maps.Events.addHandler(pushpin, 'dblclick', function () {
                 pins --;
                 map.entities.remove(pushpin);
-                document.getElementById('p'+pushpin.getText()).style.display = "none";
+                document.getElementById('p'+pushpin.getText()).remove();
+                document.getElementById('in'+ letter).remove();
                 map.layers.clear();
                 if (bifat)
                     route();
@@ -121,7 +123,8 @@ function loadMapScenario() {
                     route();
             });
 
-            document.getElementById('printoutPanel').innerHTML += "<p name='aaa' id='p" + letter + "'>" + letter.bold() + ": " + adresa + "</p>";
+            document.getElementById('printoutPanel').innerHTML += "<p id='p" + letter + "'>" + letter.bold() + ": " + adresa + "</p>";
+            document.getElementById('printoutPanel').innerHTML += "<input type='hidden' id='in" + letter + "' value='" + adresa + "' name='adresa" + letter + "'>"
             adrese += adresa;
             document.getElementById('printoutPanel').scrollTop = document.getElementById('printoutPanel').scrollHeight; // scroll to the bottom of printoutPanel when a pin is added
 
@@ -165,19 +168,3 @@ function loadMapScenario() {
         }
     });
 }
-// document.getElementById("submit_button").addEventListener('click', function () {
-//     console.log(adrese);
-//     $.ajax({
-//         type: "GET",
-//         url: "/1.py",
-//         async: false,
-//         datatype: "text",
-//         data: { param: adrese },
-//         success: callbackFunc
-//     });
-// });
-// function callbackFunc(response) {
-//     // do something with the response
-//     console.log("merge scriptul");
-//     console.log(response);
-// }
