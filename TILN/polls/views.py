@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from scripts.test import afis
+from scripts import scraping
 
 
 def index(request):
@@ -16,5 +16,5 @@ def index(request):
 
 
 def story(request):
-    print(afis(adrese))
+    scraping.main(adrese)
     return render(request, 'story.html', {'adrese': adrese})
