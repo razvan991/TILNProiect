@@ -4,33 +4,57 @@
     <head>
         <title>TILN</title>
         <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+
     	<link href="{%  static  'css/index.css'  %}" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <form method="post"> {% csrf_token %}
-            <div class="container1">
+            
+
+            <div id="container1" >
                 <div id='myMap'></div>
 
-                <div class="container2">
+                <div id="container2">
                     <div id='searchBoxContainer'>
                         <p>Search a city</p>
                         <input type = 'text' id = 'searchBox'/>
                     </div>
-                    <div id='printoutPanel'></div>
+                    <div id='printoutPanel'>
+                    </div>
                 </div>
             </div>
-            <div class="container3" id="container3">
+            <div id="container3" id="container3">
                 <!-- checkbox "afiseaza traseul"-->
                 <input type="checkbox" id="show_route" checked>
                 <label for="show_route">Afiseaza traseul.</label>
                 
                 <!-- buton "afiseaza poveste" -->
-                <button type="submit" name="web_scraping" id="submit_button" style="float: right;">Web scraping</button>
+                <button type="submit" name="web_scraping" id="submit_button" onclick="load()" style="float: right;">Web scraping</button>
             </div>
-            <div class="container4" id="container4">
-                <!--  -->
+        <div >
+            <div id="loader" ></div>
+            <div id="loading-text">
+                <p>Plase wait for informations to load</p>
             </div>
+        </div>
+       
+        </div>
+
             <script src="{%  static  'js/index.js'  %}"></script>
+            <script>
+                function load(){
+                    var loading=document.getElementById("loader");
+                    var loading1=document.getElementById("container1");
+                    var loading2=document.getElementById("container2");
+                    var loading3=document.getElementById("container3");
+                    loading.style.display="block";
+                    var loadingText=document.getElementById("loading-text");
+                    loadingText.style.display="block";
+                    loading1.style.display="none";
+                    loading2.style.display="none";
+                    loading3.style.display="none";
+                }
+            </script>
             <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=Auvyd6YmHw3Vjtjk8Qh_UPb_AzgFbBa2XMnWc5ra8C2b5xNwEgiyugdUY9zw46yb&callback=loadMapScenario' async defer></script>
         </form>
     </body>
