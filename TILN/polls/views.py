@@ -16,5 +16,5 @@ def index(request):
 
 
 def story(request):
-    scraping.main(adrese)
-    return render(request, 'story.html', {'adrese': adrese})
+    stories = scraping.main(adrese)
+    return render(request, 'story.html', {'adrese': stories})

@@ -1,131 +1,64 @@
-from bs4 import BeautifulSoup
-import requests
-import string
-import nltk
-import re
 import wikipedia
-#nltk.download('stopwords')
+from difflib import SequenceMatcher
+import random
+
+keywords = ['Istorie', 'Istoric', 'Descriere', 'Toponomie']
+cuv_leg = ["Incepem traseul la  ", "Urmatoarea locatie este ", "Urmeaza ", "Ne indreptam apoi pe ", "In continuare mergem pe ", "Continuand suntem pe ", "Ajungem apoi la  ", "Traseul continua cu ", "Finalizand traseul ajungem pe "]
 
 
-#Enter_input = input("Search: ")
-#u_i = string.capwords(Enter_input)
-#lista = u_i.split()
-#cuvant = "_".join(lista)
+def generare_informatii(adrese):
+    global stories
+    stories = []
+    for adresa in adrese:
+        strada = adresa.split(",")[0]
+        if len(adresa) > 2:
+            oras = adresa.split(",")[len(adresa.split(",")) - 2].split(" ")[len(adresa.split(",")[len(adresa.split(",")) - 2].split(" ")) - 1]
+        else:
+            oras = ""
 
-#url = "https://ro.wikipedia.org/wiki/"+cuvant
+        first_sentence = ""
+        if adresa == adrese[0]:
+            first_sentence += cuv_leg[0]
+        elif adresa == adrese[len(adrese) - 1]:
+            first_sentence += cuv_leg[2]
+        else:
+            first_sentence += cuv_leg[random.randint(1, len(cuv_leg) - 2)]
 
+        # first_sentence += strada + ", " + oras + ". "
+        first_sentence += adresa
 
+        stories.append(first_sentence)
 
-def scraping(x):
-    u_i = string.capwords(x)
-    lista = u_i.split()
-    cuvant = "_".join(lista)
-    url = "https://ro.wikipedia.org/wiki/" + cuvant
-    url_open = requests.get(url).text
-    soup = BeautifulSoup(url_open,'lxml')
-    detalii = soup()
+        orase = [" " + oras]
 
-    url_open = requests.get(url).text
-    soup = BeautifulSoup(url_open,'lxml')
-    #print(soup.prettify())
-    print(soup.title.text)
-
-    #data=[]
-    info = []
-    #s = re.compile("Paragraph")
-    gdp_table = soup.find("p")
-    gdp_table1 =soup.find_all("p",limit=5)
-    #for element in gdp_table:
-        #data= ''.join(element.findAll(text= True))
-        #info.append(element.info)
-    #gdp_table_data = gdp_table.tbody.find_all("tr")
-    print(gdp_table.text)
-    print(gdp_table1)
-
-
-def html_search():
-    with open('index.html','r') as html_file:
-        content = html_file.read()
-        soup1 = BeautifulSoup(content,'lxml')
-        content_html_page = soup1.findAll('p')
-        for contents in content_html_page:
-            x = contents.text
-            scraping(x)
-            # print(url)
-            print(contents.text)
-
-
-def html_pro():
-    url = "http://127.0.0.1:5500/index.html"
-    url_open = requests.get(url).text
-    soup = BeautifulSoup(url_open, 'lxml')
-    detalii = soup()
-
-    # print(soup.prettify())
-    print(soup.title.text)
-
-    # data=[]
-    info = []
-    # s = re.compile("Paragraph")
-    gdp_table = soup.find_all("p", class_="search_item")
-    print(gdp_table)
-    for tag in gdp_table:
-        print(tag)
-
-
-
-
-# html_search()
-#html_pro()
-locatii = []
-
-def generare_informatii(strazi):
-    for str in strazi:
-        print()
-        print(wikipedia.search(str))
-        print()
-        print(wikipedia.page(wikipedia.search(str+"(strada)")[0]).content.split("\n\n\n"))
-
-
-def primire_adrese(adrese):
-    locatii = adrese
-    # print(locatii)
-    # print(wikipedia.search("Splaiul Bahlui Mal Drept"))
-    strazi=[]
-    for loc in locatii:
-        strazi.append(loc.split(",")[0])
-    # print(strazi)
-    generare_informatii(strazi)
-
-
-
-def print_wiki():
-    # #print(wikipedia.search("Android"))
-    # print("--  \n")
-    # #print(wikipedia.summary("Stan Lee(name)"))
-    # print("--  \n")
-    # #print(wikipedia.summary("Python(programming language)"))
-    # print("--  \n")
-    # print(wikipedia.search("Iasi"))
-    # print("--  \n")
-    # print(wikipedia.search("Strada Vasile Conta"))
-    # print("-- \n")
-    # print(wikipedia.search("Aleea Nucului"))
-    # print(wikipedia.search("Strada Toma Cozma(Iasi)"))
-    # #print(wikipedia.page("Cacica").content)
-    # print("--  \n")
-    # #print(wikipedia.page("Bulevardul Independentei din Iasi").content)
-    # print(wikipedia.search("Strada Nicolae Gane(Iasi)"))
-    # print(wikipedia.page("Bulevardul_Independenței_din_Iași").content)
-    # print("--  \n")
-    # print(wikipedia.summary("Strada_Alexandru_Lăpușneanu_din_Iași"))
-    print(wikipedia.search("Strada Sfântul Lazăr"))
-    #print(wikipedia.suggest("Strada Palat din Iași"))
-
-
-print_wiki()
+        for ors in orase:
+            try:
+                story = wikipedia.page(strada + ors).summary
+            except wikipedia.exceptions.PageError:
+                try:
+                    stories.append("Nu am gasit exact adresa ceruta si am cautat adrese similare. ")
+                    story = wikipedia.page(wikipedia.search(strada + ors)[0]).summary
+                except:
+                    stories.append("In urma cautarilor nu am gasit nici o informatie despre " + strada + ", " + oras + ". ")
+                    stories.append("-_-")
+                else:
+                    stories.append(story)
+                    stories.append("-_-")
+                    break
+            except:
+                stories.append("Pentru " + strada + ", " + oras + " nu am gasit informatii si nici adrese similare. ")
+                stories.append("-_-")
+            else:
+                print(SequenceMatcher(None, wikipedia.page(strada + ors).title, strada + ors).ratio(), wikipedia.page(strada + ors).title, strada + ors)
+                if SequenceMatcher(None, wikipedia.page(strada + ors).title, strada + ors).ratio() < 0.8:
+                    stories.append("In cautarea informatiilor despre " + strada + ", " + oras + ", am fost redirectionati catre " + wikipedia.page(strada + ors).title + ". ")
+                if story is not None:
+                    stories.append(story)
+                    stories.append("-_-")
+                    break
 
 
 def main(adrese):
-    primire_adrese(adrese)
-
+    wikipedia.set_lang("ro")
+    generare_informatii(adrese)
+    return stories

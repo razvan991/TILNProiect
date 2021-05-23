@@ -2,15 +2,20 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <title>TILN</title>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+    	<link href="{%  static  'css/story.css'  %}" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <ul>
+        <p>
           {% for adresa in adrese %}
-            <li>{{ adresa }}</li>
+            {% if adresa == "-_-" %}
+                <p>{{ "<br>" }}</p>
+            {% else %}
+                <p>{{ adresa }}</p>
+            {% endif %}
           {% endfor %}
-        </ul>
-
+        </p>
         <a href="index.html">inapoi la index</a>
     </body>
 </html>

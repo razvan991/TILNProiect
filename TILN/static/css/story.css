@@ -1,0 +1,12 @@
+p {
+    max-width: 90%;
+    margin: 5px auto;
+    overflow-y: auto;
+    overflow-x: none;
+    max-height: 110px;
+}
+/* p:nth-child(odd) {
+    color: red;
+    font-size: 18px;
+    font-weight: 800;
+  } */
